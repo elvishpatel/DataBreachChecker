@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dark Web Leak Checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        background: #111;
+        color: #eee;
+        font-family: "Segoe UI", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background: #1c1c1c;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+        text-align: center;
+        max-width: 450px;
+        width: 100%;
+      }
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+      }
+      p {
+        color: #ccc;
+        margin-bottom: 20px;
+      }
+      input {
+        width: 90%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+      button {
+        padding: 10px 25px;
+        background: #00ffd0;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background: #00e0b8;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      .leaked {
+        color: #ff6b6b;
+        font-weight: bold;
+      }
+      .safe {
+        color: #90ee90;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🕵️ Dark Web Leak Checker</h1>
+      <p>Enter your email to check if it's been breached</p>
+      <input id="email" type="email" placeholder="you@example.com" />
+      <br />
+      <button onclick="checkLeak()">Check</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      async function checkLeak() {
+        const email = document.getElementById("email").value.trim();
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "🔍 Checking...";
+
+        if (!email || !email.includes("@")) {
+          resultDiv.innerHTML = "❌ Please enter a valid email address.";
+          return;
+        }
+
+        try {
+          const res = await fetch(
+            `https://api.xposedornot.com/v1/check-email/${encodeURIComponent(email)}`
+          );
+          const data = await res.json();
+
+          if (data.breaches && data.breaches.length > 0) {
+            const breaches = data.breaches.flat();
+            const sourceList = breaches.map((b) => `<li>${b}</li>`).join("");
+
+            resultDiv.innerHTML = `
+              <div class="leaked">⚠️ Leaked!</div>
+              <ul style="text-align:left;margin-top:10px">${sourceList}</ul>
+            `;
+          } else {
+            resultDiv.innerHTML = `<div class="safe">✅ Safe – no breach found</div>`;
+          }
+        } catch (err) {
+          console.error(err);
+          resultDiv.innerHTML = "🚫 Error checking. Please try again later.";
+        }
+      }
+    </script>
+  </body>
+</html>
