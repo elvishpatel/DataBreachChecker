@@ -21,16 +21,18 @@
         border-radius: 15px;
         box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
         text-align: center;
-        max-width: 450px;
+        max-width: 480px;
         width: 100%;
+        position: relative;
       }
       h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
         margin-bottom: 10px;
       }
       p {
         color: #ccc;
         margin-bottom: 20px;
+        font-size: 0.95rem;
       }
       input {
         width: 90%;
@@ -65,16 +67,62 @@
         color: #90ee90;
         font-weight: bold;
       }
+      .footer {
+        margin-top: 40px;
+        font-size: 0.85rem;
+        color: #888;
+      }
+      .footer a {
+        color: #00ffd0;
+        text-decoration: none;
+      }
+      .github-link {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      .github-link img {
+        width: 28px;
+        height: 28px;
+        transition: transform 0.2s;
+      }
+      .github-link img:hover {
+        transform: scale(1.2);
+      }
+      .info-box {
+        background-color: #2a2a2a;
+        border-left: 4px solid #00ffd0;
+        padding: 15px;
+        margin: 20px 0;
+        text-align: left;
+        font-size: 0.9rem;
+        border-radius: 10px;
+        color: #ccc;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>🕵️ Dark Web Leak Checker</h1>
-      <p>Enter your email to check if it's been breached</p>
+      <p>Enter your email below to check if it's been exposed in a data breach.</p>
+
+      <div class="info-box">
+        🔐 This tool checks your email against known breaches from the dark web using the <strong>XposedOrNot API</strong>. Your data is <em>not stored</em> or logged.
+      </div>
+
       <input id="email" type="email" placeholder="you@example.com" />
       <br />
       <button onclick="checkLeak()">Check</button>
       <div id="result"></div>
+
+      <div class="footer">
+        Developed with ❤️ by <strong>Elvish Patel</strong>
+        <div class="github-link">
+          <a href="https://github.com/elvishpatel/DataBreachChecker/">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Repo" style="filter: invert(1); width: 30px; height: 30px;" />
+          </a>
+        </div>
+      </div>
     </div>
 
     <script>
